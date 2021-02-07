@@ -1,0 +1,25 @@
+using System;
+
+namespace _KnightsofHonor
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            string[] names = Console.ReadLine().Split();
+
+            Action<string[]> printer = Print;
+            printer(names);
+
+        }
+
+        private static void Print(string[] names)
+        {
+            foreach (var name in names)
+            {
+                Console.WriteLine($"Sir {name}");
+            }
+        }
+    }
+}
