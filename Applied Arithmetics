@@ -1,0 +1,75 @@
+using System;
+using System.Linq;
+
+namespace _5._Applied_Arithmetics
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] arr = Console.ReadLine()
+                        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(int.Parse)
+                        .ToArray();
+            string command = Console.ReadLine();
+
+            Func<string, int[], int[]> func = (a, b) => arr;
+
+            Action<int[]> printer = Printer;
+
+            while (command != "end")
+            {
+                switch (command) 
+                {
+                    case "add":
+                        func(command,Add(arr));
+                        break;
+                    case "multiply":
+                        func(command, Multiply(arr));                        
+                        break;
+                    case "subtract":
+                        func(command, Subtract(arr));                        
+                        break;
+                    case "print":
+                        printer(arr);
+                        break;
+                    default:
+                        break;
+                }
+
+                command = Console.ReadLine();
+            }
+
+            
+        }
+
+        static int[] Add ( int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] += 1;
+            }
+            return arr;
+        }
+        static int[] Multiply(int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] *= 2;
+            }
+            return arr;
+        }
+        static int[] Subtract(int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] -= 1;
+            }
+            return arr;
+        }
+        static void Printer(int[] arr)
+        {
+            Console.WriteLine(string.Join(" ", arr));
+        }
+    }
+}
