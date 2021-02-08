@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _6._Reverse_and_Exclude
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine()
+                            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(int.Parse)
+                            .ToList();
+
+            int element = int.Parse(Console.ReadLine());
+            
+            Func<List<int>, int, List<int>> remover = Remover;
+           
+            Console.WriteLine(string.Join(' ', remover(ReverseList(nums),element)));
+        }
+
+        private static List<int> ReverseList(List<int> list)
+        {
+            for (int i = 0; i < list.Count / 2; i++)
+            {
+                int currentNum = list[i];
+                list[i] = list[list.Count - i - 1];
+                list[list.Count - i - 1] = currentNum;
+            }
+            return list;
+        }
+
+        static List<int> Remover(List<int> list, int num)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] % num == 0)
+                {
+                    list.RemoveAt(i);
+                    i--;
+                }
+            }
+            
+            return list;
+        }
+
+    }
+}
