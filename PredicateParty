@@ -1,0 +1,112 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _10._Predicate_Party_
+{
+    class Program
+    {
+
+
+        static void Main(string[] args)
+        {
+            List<string> list = Console.ReadLine()
+                               .Split()
+                               .ToList();
+
+            string input = Console.ReadLine();
+
+            while (input != "Party!")
+            {
+                string[] command = input.Split().ToArray();
+
+                string cmdType = command[0];
+                string[] predicateArgs = command.Skip(1).ToArray();
+
+                Predicate<string> predicate = GetPedicate(predicateArgs);
+
+                if (cmdType == "Remove")
+                {
+                    list.RemoveAll(predicate);
+                }
+                else if (cmdType == "Double")
+                {
+                    DoubleGuests(list, predicate);
+                }
+                else if (cmdType == "Length")
+                {
+                    LengthRemove(list, predicate);
+                }
+
+                input = Console.ReadLine();
+            }
+            if (list.Count > 0)
+            {
+                Console.WriteLine($"{string.Join(", ", list)} are going to the party!");
+            }
+
+            else
+            {
+                Console.WriteLine("Nobody is going to the party!");
+            }
+            
+        }
+
+        private static void LengthRemove(List<string> list, Predicate<string> predicate)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (predicate(list[i]))
+                {
+                    list.Remove(list[i]);
+                }
+            }
+        }
+
+        private static void DoubleGuests(List<string> list, Predicate<string> predicate)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                string cuurentGuest = list[i];
+
+                if (predicate(cuurentGuest))
+                {
+                    list.Insert(i + 1, cuurentGuest);
+                    i++;
+                }
+            }
+        }
+
+        static Predicate<string> GetPedicate(string[] predicateArgs)
+        {
+            string prType = predicateArgs[0];
+            string prArg = predicateArgs[1];
+
+            Predicate<string> predicate = null;
+
+            if (prType == "StartsWith")
+            {
+                predicate = new Predicate<string>((name) =>
+                {
+                    return name.StartsWith(prArg);
+                });
+            }
+            else if (prType == "EndsWith")
+            {
+                predicate = new Predicate<string>((name) =>
+                {
+                    return name.EndsWith(prArg);
+                });
+            }
+            else if (prType == "Length")
+            {
+                predicate = new Predicate<string>((name) =>
+                {
+                    return name.Length == int.Parse(prArg);
+                });
+            }
+
+            return predicate;
+        }
+    }
+}
